@@ -1,11 +1,10 @@
 return {
-  'scottmckendry/cyberdream.nvim',
+  'cideM/yui',
   priority = 1000,
   config = function()
-    require('cyberdream').setup {
-      italic_comments = false,
-      transparent = true,
-    }
-    vim.cmd.colorscheme 'cyberdream'
+    vim.cmd.colorscheme 'yui'
+    vim.api.nvim_set_hl(0, 'Normal', { bg = '#000000' })
+    vim.api.nvim_set_hl(0, 'NormalNC', { bg = '#000000' })
+    vim.api.nvim_set_hl(0, 'String', { fg = '#00ff00' })
   end,
 }
