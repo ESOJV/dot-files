@@ -41,7 +41,8 @@ link() {
 link "$current_dir/nvim"        "$HOME/.config/nvim"
 link "$current_dir/tmux"        "$HOME/.config/tmux"
 link "$current_dir/ghostty"     "$HOME/.config/ghostty"
-link "$current_dir/zsh/.zshrc"  "$HOME/.zshrc"
+link "$current_dir/zsh/.zshrc"    "$HOME/.zshrc"
+link "$current_dir/zsh/.zshrc"    "$HOME/.bashrc"
 link "$current_dir/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
 
 # ---------------------------------------------------------------------------
