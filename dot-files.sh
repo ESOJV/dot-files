@@ -6,19 +6,38 @@ current_dir="$(cd "$(dirname "$0")" && pwd)"
 echo "==> Setting up dot-files from $current_dir"
 
 # ---------------------------------------------------------------------------
-# Homebrew (macOS)
+# Package installation
 # ---------------------------------------------------------------------------
 if [[ "$OSTYPE" == "darwin"* ]]; then
     if ! command -v brew &>/dev/null; then
         echo "==> Installing Homebrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        # Add brew to PATH for Apple Silicon
         [[ -f /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
-
-    echo "==> Installing packages..."
-    brew install eza powerlevel10k tmux fzf
+    echo "==> Installing packages (brew)..."
+    brew install eza powerlevel10k tmux fzf neovim
     brew install --cask ghostty
+
+elif command -v pacman &>/dev/null; then
+    echo "==> Installing packages (pacman)..."
+    sudo pacman -S --needed --noconfirm eza tmux fzf neovim zsh git ghostty
+
+    # powerlevel10k — in AUR, needs an AUR helper
+    if ! pacman -Q zsh-theme-powerlevel10k &>/dev/null; then
+        if command -v yay &>/dev/null; then
+            yay -S --needed --noconfirm zsh-theme-powerlevel10k
+        elif command -v paru &>/dev/null; then
+            paru -S --needed --noconfirm zsh-theme-powerlevel10k
+        else
+            echo "Warning: No AUR helper found. Install zsh-theme-powerlevel10k manually."
+        fi
+    fi
+
+    # Set zsh as default shell if not already
+    if [ "$SHELL" != "$(which zsh)" ]; then
+        echo "==> Setting zsh as default shell..."
+        chsh -s "$(which zsh)"
+    fi
 fi
 
 # ---------------------------------------------------------------------------
@@ -38,10 +57,10 @@ link() {
 # ---------------------------------------------------------------------------
 # Config symlinks
 # ---------------------------------------------------------------------------
-link "$current_dir/scripts"     "$HOME/scripts"
-link "$current_dir/nvim"        "$HOME/.config/nvim"
-link "$current_dir/tmux"        "$HOME/.config/tmux"
-link "$current_dir/ghostty"     "$HOME/.config/ghostty"
+link "$current_dir/scripts"       "$HOME/scripts"
+link "$current_dir/nvim"          "$HOME/.config/nvim"
+link "$current_dir/tmux"          "$HOME/.config/tmux"
+link "$current_dir/ghostty"       "$HOME/.config/ghostty"
 link "$current_dir/zsh/.zshrc"    "$HOME/.zshrc"
 link "$current_dir/zsh/.zshrc"    "$HOME/.bashrc"
 link "$current_dir/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
