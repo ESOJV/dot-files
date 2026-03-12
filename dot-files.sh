@@ -17,7 +17,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     fi
 
     echo "==> Installing packages..."
-    brew install eza powerlevel10k tmux
+    brew install eza powerlevel10k tmux fzf
     brew install --cask ghostty
 fi
 
@@ -38,6 +38,7 @@ link() {
 # ---------------------------------------------------------------------------
 # Config symlinks
 # ---------------------------------------------------------------------------
+link "$current_dir/scripts"     "$HOME/scripts"
 link "$current_dir/nvim"        "$HOME/.config/nvim"
 link "$current_dir/tmux"        "$HOME/.config/tmux"
 link "$current_dir/ghostty"     "$HOME/.config/ghostty"
